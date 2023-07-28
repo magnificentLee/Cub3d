@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:23:45 by sejokim           #+#    #+#             */
-/*   Updated: 2023/07/26 18:55:36 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/07/28 17:53:09 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ typedef struct s_config {
 
 
 /* parsing function */
-
+/*
 int			check_rgb_range(char *rgb);
 void		add_line_to_map(char *line, t_config *config);
 void		parse_line(char *line, t_config *config);
 void		check_file_extension(char *file_path);
 t_config	parse_config(char *file_path);
-
+*/
 /* utility function */
 char		*get_next_line(int fd);
 int			ft_strlen(const char *s);
@@ -70,6 +70,10 @@ void		ft_split_free(char **strs, int count);
 int			is_space(char space);
 int			ft_atoi(char *str);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
+/* test Parsing */
+void		map_size(t_config *config, char *line);
+void		map_reading(char *file, t_config *config);
 
 
 #endif
