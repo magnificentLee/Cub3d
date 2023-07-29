@@ -105,3 +105,30 @@
 	- 맵의 빈 공간이 스페이스가 아니라 탭이라면?
 	- 1개의 탭 = 4개의 빈 칸 이지만 맵핑시엔 1 개의 탭 당 1 개의 빈 칸을 생성하지만 나머지 3칸 만큼은 가장 나중에 출력해서 맵이 이상하게 출력됨
 	- 파싱때 예외를 두거나 맵핑시에 다른 처리 방법을 고민중
+
+16. 이미지 관련 함수 정리
+	- mlx_new_image
+		- 이미지 생성
+	- mlx_xpm_file_to_image
+		- xpm 파일을 이미지로 생성, 성공시 이미지의 포인터 반환
+		- 함수인자 width, height은 이미지의 width, height 값을 저장하기 위함
+	- mlx_get_data_addr
+		- 이미지의 정보를 가져옴
+		- 프로토타입의 반환값은 char pointer
+		- 해당 과제에서 int pointer로 형변환 하는 이유(추정)
+			- 1. 텍스쳐(int **)에 미리 이미지를 저장하여 사용하는 경우 각각의 텍스쳐에 이미지를 복사하게 되는데 이때 형식을 맞춰주기 위함임.
+			- 2. int 값인 bpp, size_line을 이용하여 메모리 주소 이동을 하는 경우 int pointer로 형변환 시켜줘야 하는 듯 (참고로 char pointer로 사용하는 경우 각각의 bpp, size_line에 접근해도 값이 0만 나왔음. 따라서 이게 형변환하는 이유로 추정됨)
+		- 함수인자
+			- bpp(bit_per_pixel) : 픽셀에 색상을 나타내기 위해 필요한 비트수
+			- size_line : 메모리 상에서 image의 한 행을 표현하는데 사용된 바이트 값
+			- endian : image 상의 픽셀 색상 값이 리틀 엔디안(0)인지 빅 엔디안(1)인지
+		- 목적
+			- 메모리 상에 존재하는 image의 bpp, size_line 을 이용해 image를 조작하기 쉽게 해줌.
+			- 예를 들어 bpp = 8 인 경우 mlx_get_data_addr 의 반환 값에서 8비트 만큼이 image의 첫 행의 첫 픽셀 색상을 나타냄. 그 다음 8비트는 image의 첫 행의 두 번째 픽셀 색상을 나타내는 값이 됨. image의 주소 값에 size_line 만큼 더하게 되면 image 의 두 번째 행의 시작 지점이 됨.
+			- 요약하자면 image의 어떤 pixel에도 접근 할 수 있게 해줌.
+		- 주의
+			- 행으로 접근하기 때문에 2차원이라 생각할 수 있는데 1차원이기 때문에 접근에 주의해야함
+			- texture[i + (img.img_row * j)] = img.img_data[i + (img.img_row * j)];
+			- 위 코드처럼 이미지 전체를 복사하는 경우 1행을 탐색하고 그 다음 행으로 이동하는 경우 이미지의 길이만큼 더 해줘야 함
+	- mlx_destroy_image
+		- Screen Connection 상에서 유지 중인 image를 지울 수 있음

@@ -8,6 +8,7 @@ SRCS		= main.c \
 			./utils/utils.c \
 			./parsing/parsing.c \
 			./mapping/mapping.c \
+			./mapping/image_texture.c \
 			./mapping/event.c \
 
 OBJS		= $(SRCS:%.c=%.o)
