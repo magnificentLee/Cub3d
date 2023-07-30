@@ -6,74 +6,80 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:38:46 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/07/29 22:36:16 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/07/30 21:53:47 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../cub3d.h"
 
-void	mapping_square(t_config *config, int x, int y);
-
-void	mapping(t_config *config)
+void	draw_map(t_config *config)
 {
 	int	i;
 	int	j;
 
 	j = 0;
-	while (j < config->map_cols)
+	while (j < WIN_HEIGH)
 	{
 		i = 0;
-		while (i < config->map_rows)
+		while (i < WIN_WIDTH)
 		{
-			if (config->map[j][i] == '1')
-				put_image_to_window()
+			config->img.data[j * WIN_WIDTH + i] = config->buf[j][i];
 			i++;
 		}
 		j++;
 	}
-	mlx_put_image_to_window(config->mlx, config->win, config->img.img, (int)(MINISCALE * WIN_ROW_SIZE) *(1 - MINISCALE), (int)(MINISCALE * WIN_COL_SIZE) *(1 - MINISCALE));
+	mlx_put_image_to_window(config->mlx, config->win, config->img.img, 0, 0);
 }
 
-void	put_image_to_window_empty(t_config *config, char sep, int i, int j)
-{
-	int	k;
-
-	if (sep == '\t')
-	{
-		k = 0;
-		while (k < 4)
-		{
-			mlx_put_image_to_window(config->mlx, config->win, config->textures[3], \
-			(i + k) * TEXTURE_ROW_SIZE
-			, j * TEXTURE_COL_SIZE);
-			k++;
-		}
-	}
-	else
-		mlx_put_image_to_window(config->mlx, config->win, config->textures[3], \
-		i * TEXTURE_ROW_SIZE, j * TEXTURE_COL_SIZE);
-}
-
-void	put_image_to_window(t_config *config, int *texture, int i, int j)
-{
-	mlx_put_image_to_window(config->mlx, config->win, img, \
-	i * TEXTURE_ROW_SIZE, j * TEXTURE_COL_SIZE);
-}
-/*
-void	put_player_to_window(t_mlx *mlx, int i, int j)
-{
+void	fill_square(t_config *config, int pixel, int x, int y)
+{ 	// 타일의 크기 결정
 	int	i;
+	int	j;
 
-	i = 0;
-	while (i < 8)
+	j = y;
+	while (j < y + 64)
 	{
-		mlx_pixel_put(mlx->mlx, mlx->win, )	
+		i = x;
+		while (i < x + 64)
+		{
+			config->buf[j][i] = pixel;
+			i++;
+		}
+		j++;
 	}
-	
-	for (int idx = 0; idx < 50; idx++) {
-		mlx_pixel_put(mlx->mlx, mlx->win, (i + idx) * tileSize, j * tileSize, 0xFF0000); // red
-	}
-//	mlx_pixel_put(mlx->mlx, mlx->win, i * tileSize, j * tileSize, 0x0000FF);
 }
-*/
+
+void	mapping(t_config *config)
+{	// 화면에 찍히는 위치 결정, 전체적인 맵의 크기가 커짐
+	int	i;
+	int	j;
+	int	x;
+	int	y;
+	int	pixel;
+
+	j = 0;
+	y = 0;
+	while (j < config->map_cols)
+	{
+		i = 0;
+		x = 0;
+		while (i < config->map_rows)
+		{
+			if (config->map[j][i] == '0')
+				pixel = config->textures[4][TEX_WIDTH * j + i];
+			else if (config->map[j][i] == '1' || config->map[j][i] == '2')
+				pixel = config->textures[2][TEX_WIDTH * j + i];
+			else if (config->map[j][i] == 'N')
+				pixel = config->textures[0][TEX_WIDTH * j + i];
+			else
+				pixel = config->textures[3][TEX_WIDTH * j + i];
+//			config->buf[y][x] = pixel;
+			fill_square(config, pixel, x, y);
+			i++;
+			x += 32;
+		}
+		j++;
+		y += 32;
+	}
+	draw_map(config);
+}

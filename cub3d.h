@@ -6,7 +6,7 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:23:45 by sejokim           #+#    #+#             */
-/*   Updated: 2023/07/29 21:10:14 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/07/30 21:50:03 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@
 # define MAX_RGB_LEN 11
 
 # define NUMBER_OF_IMG		5
-# define TEXTURE_ROW_SIZE 	64 // size of img_file 현재 사용중인 이미지는 64 * 64 크기, 간격을 생성하려면 65 이상으로 수정
-# define TEXTURE_COL_SIZE	64
-# define WIN_ROW_SIZE 		2200 // 가로, winRowSize >= tileSize * config->max_rows, 테스트 케이스의 경우 2200 >= 65 * 33
-# define WIN_COL_SIZE 		1080  // 세로, winColSize >= tileSize * config->max_cols, 테스트 케이스의 경우 1080 >= 65 * 14
-# define MINISCALE			0.25
+# define TEX_WIDTH 	64 // size of img_file 현재 사용중인 이미지는 64 * 64 크기, 간격을 생성하려면 65 이상으로 수정
+# define TEX_HEIGH	64
+# define WIN_WIDTH 		1280 // 가로, winRowSize >= tileSize * config->max_rows, 테스트 케이스의 경우 2200 >= 65 * 33 , 해당 사이즈에선 버퍼가 너무 커서 런타임 에러 발생
+# define WIN_HEIGH 		1280  // 세로, winColSize >= tileSize * config->max_cols, 테스트 케이스의 경우 1080 >= 65 * 14 , 해당 사이즈에선 버퍼가 너무 커서 런타임 에러 발생
 
 typedef struct s_img {
 	void	*img;
-	int		*img_data; // img의 데이터를 뽑아서 textures에 할당하는 경우 구조체가 아닌 지역변수로 할당하는 경우 데이터의 수명에 문제가 생겨 UB가 발생할 수 있음
-	int		img_row;
-	int		img_col;
+	int		*data; // img의 데이터를 뽑아서 textures에 할당하는 경우 구조체가 아닌 지역변수로 할당하는 경우 데이터의 수명에 문제가 생겨 UB가 발생할 수 있음
+	int		img_width;
+	int		img_height;
 	int		bpp;
 	int		endian;
 	int		size_line;
@@ -78,7 +77,7 @@ typedef struct s_config {
 	char	floor_color[MAX_RGB_LEN];
 	char	ceiling_color[MAX_RGB_LEN];
 	char	**map;
-//	int		buf[WIN_COL_SIZE][WIN_ROW_SIZE];
+	int		buf[WIN_HEIGH][WIN_WIDTH]; // 한 번에 출력하는 용도
 	int		map_rows;
 	int		map_cols;
 }	t_config;
@@ -109,7 +108,7 @@ int			ft_atoi(char *str);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 /* test initialize */
-void		initialize(void); // 초기화 함수 통합용
+void	initialize(t_config *config, char **av);
 
 /* test Parsing */
 void		map_size(t_config *config, char *line);
@@ -117,17 +116,12 @@ void		map_reading(char *file, t_config *config);
 
 /* test Mapping */
 void		mapping(t_config *config);
-void		put_image_to_window_empty(t_config *config, char sep, int i, int j);
-void		put_image_to_window(t_config *config, void *img, int i, int j);
 
 /* test image_textures */
 int			init_texture(t_config *config);
 void		load_textures(t_config *config);
-//void		load_image(t_config *config, char *img_file, int *texture);
+void		load_image(t_config *config, char *img_file, int *texture);
 int			free_textures(int **integer, int count);
-
-void		load_image(t_config *config, char *img_file, int *texture, t_img *img);
-
 
 /* test Event */
 int			key_press(int keycode, t_config *config);

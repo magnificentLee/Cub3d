@@ -118,6 +118,7 @@
 		- 해당 과제에서 int pointer로 형변환 하는 이유(추정)
 			- 1. 텍스쳐(int **)에 미리 이미지를 저장하여 사용하는 경우 각각의 텍스쳐에 이미지를 복사하게 되는데 이때 형식을 맞춰주기 위함임.
 			- 2. int 값인 bpp, size_line을 이용하여 메모리 주소 이동을 하는 경우 int pointer로 형변환 시켜줘야 하는 듯 (참고로 char pointer로 사용하는 경우 각각의 bpp, size_line에 접근해도 값이 0만 나왔음. 따라서 이게 형변환하는 이유로 추정됨)
+			- 3. RGBA = 8 * 4 = 32비트, 32비트 정수(여러 바이트)를 한 번에(단일 엔티티로) 처리하기 위해서 char pointer를 int pointer로 형변환 시키는 것 (chatGPT 답변, 제일 그럴듯함) -> 24비트 RGB, 16비트 RGBA는 UB가 발생 할 수 있으므로 금지임
 		- 함수인자
 			- bpp(bit_per_pixel) : 픽셀에 색상을 나타내기 위해 필요한 비트수
 			- size_line : 메모리 상에서 image의 한 행을 표현하는데 사용된 바이트 값
@@ -130,5 +131,10 @@
 			- 행으로 접근하기 때문에 2차원이라 생각할 수 있는데 1차원이기 때문에 접근에 주의해야함
 			- texture[i + (img.img_row * j)] = img.img_data[i + (img.img_row * j)];
 			- 위 코드처럼 이미지 전체를 복사하는 경우 1행을 탐색하고 그 다음 행으로 이동하는 경우 이미지의 길이만큼 더 해줘야 함
+		- 메모리
+			- Index:   0                1                2                3               ...          64*64 - 1
+			- Memory:  [RGBA(255, 0, 0, 255)][RGBA(0, 255, 0, 255)][RGBA(0, 0, 255, 255)][RGBA(255, 255, 255, 255)] ... [Next pixels]
+			- 1차원 배열이지만 2차원처럼 생각할 때, 다음 색상까지 거리 = size_l = 이미지의 크기 (TEX_WIDTH, TEXT_HEIGHT, img_width, img_height. 단, 전부 동일할 때) 과 동일
+			- 전체를 순회할 때는 이중 반복문으로 texture[TEX_WIDTH * j + i] 로 체크하거나 복사하면 됨
 	- mlx_destroy_image
 		- Screen Connection 상에서 유지 중인 image를 지울 수 있음

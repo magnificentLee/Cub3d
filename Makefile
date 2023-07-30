@@ -7,6 +7,7 @@ SRCS		= main.c \
 			./utils/get_next_line_utils.c \
 			./utils/utils.c \
 			./parsing/parsing.c \
+			./parsing/initialize.c \
 			./mapping/mapping.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \
@@ -15,7 +16,7 @@ OBJS		= $(SRCS:%.c=%.o)
 
 LIBC		= ar rc
 
-FLAGS		= -Wall -Wextra -Werror
+FLAGS		= -g -Wall -Wextra -Werror
 
 all			:	$(NAME)
 

@@ -15,7 +15,7 @@ void	map_reading(char *file, t_config *config)
 		map_size(config, line);
 		tmp = res;
 		res = ft_strjoin(res, line);
-		config->map_rows++;
+		config->map_cols++;
 		free(tmp);
 		free(line);
 		line = get_next_line(fd);
@@ -38,6 +38,6 @@ void	map_size(t_config *config, char *line)
 			width++;
 		i++;
 	}
-	if (width > config->map_cols)
-		config->map_cols = width;
+	if (width > config->map_rows)
+		config->map_rows = width;
 }
