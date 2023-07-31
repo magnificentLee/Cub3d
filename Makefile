@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/31 23:07:26 by jeongmil          #+#    #+#              #
+#    Updated: 2023/07/31 23:07:27 by jeongmil         ###   ########seoul.kr   #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= cub3d
 
 SRCS		= main.c \
@@ -16,7 +28,7 @@ OBJS		= $(SRCS:%.c=%.o)
 
 LIBC		= ar rc
 
-FLAGS		= -g -Wall -Wextra -Werror
+FLAGS		=  -Wall -Wextra -Werror
 
 all			:	$(NAME)
 

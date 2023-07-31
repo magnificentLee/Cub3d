@@ -117,15 +117,15 @@
 		- 프로토타입의 반환값은 char pointer
 		- 해당 과제에서 int pointer로 형변환 하는 이유(추정)
 			- 1. 텍스쳐(int **)에 미리 이미지를 저장하여 사용하는 경우 각각의 텍스쳐에 이미지를 복사하게 되는데 이때 형식을 맞춰주기 위함임.
-			- 2. int 값인 bpp, size_line을 이용하여 메모리 주소 이동을 하는 경우 int pointer로 형변환 시켜줘야 하는 듯 (참고로 char pointer로 사용하는 경우 각각의 bpp, size_line에 접근해도 값이 0만 나왔음. 따라서 이게 형변환하는 이유로 추정됨)
+			- 2. int 값인 bpp, size_l을 이용하여 메모리 주소 이동을 하는 경우 int pointer로 형변환 시켜줘야 하는 듯 (참고로 char pointer로 사용하는 경우 각각의 bpp, size_l에 접근해도 값이 0만 나왔음. 따라서 이게 형변환하는 이유로 추정됨)
 			- 3. RGBA = 8 * 4 = 32비트, 32비트 정수(여러 바이트)를 한 번에(단일 엔티티로) 처리하기 위해서 char pointer를 int pointer로 형변환 시키는 것 (chatGPT 답변, 제일 그럴듯함) -> 24비트 RGB, 16비트 RGBA는 UB가 발생 할 수 있으므로 금지임
 		- 함수인자
 			- bpp(bit_per_pixel) : 픽셀에 색상을 나타내기 위해 필요한 비트수
-			- size_line : 메모리 상에서 image의 한 행을 표현하는데 사용된 바이트 값
+			- size_l : 메모리 상에서 image의 한 행을 표현하는데 사용된 바이트 값
 			- endian : image 상의 픽셀 색상 값이 리틀 엔디안(0)인지 빅 엔디안(1)인지
 		- 목적
-			- 메모리 상에 존재하는 image의 bpp, size_line 을 이용해 image를 조작하기 쉽게 해줌.
-			- 예를 들어 bpp = 8 인 경우 mlx_get_data_addr 의 반환 값에서 8비트 만큼이 image의 첫 행의 첫 픽셀 색상을 나타냄. 그 다음 8비트는 image의 첫 행의 두 번째 픽셀 색상을 나타내는 값이 됨. image의 주소 값에 size_line 만큼 더하게 되면 image 의 두 번째 행의 시작 지점이 됨.
+			- 메모리 상에 존재하는 image의 bpp, size_l 을 이용해 image를 조작하기 쉽게 해줌.
+			- 예를 들어 bpp = 8 인 경우 mlx_get_data_addr 의 반환 값에서 8비트 만큼이 image의 첫 행의 첫 픽셀 색상을 나타냄. 그 다음 8비트는 image의 첫 행의 두 번째 픽셀 색상을 나타내는 값이 됨. image의 주소 값에 size_l/4 만큼 더하게 되면 image 의 두 번째 행의 시작 지점이 됨.
 			- 요약하자면 image의 어떤 pixel에도 접근 할 수 있게 해줌.
 		- 주의
 			- 행으로 접근하기 때문에 2차원이라 생각할 수 있는데 1차원이기 때문에 접근에 주의해야함
@@ -138,3 +138,20 @@
 			- 전체를 순회할 때는 이중 반복문으로 texture[TEX_WIDTH * j + i] 로 체크하거나 복사하면 됨
 	- mlx_destroy_image
 		- Screen Connection 상에서 유지 중인 image를 지울 수 있음
+
+17. 구조체 설명
+	- t_img
+		- 	void *img : 도화지
+		-	int *data : 이미지의 모든 픽셀 정보를 저장, 반환값은 char * 이지만 내부 정보들이 int 형이기 때문에 int *로 선언하고 접근함
+		- int img_width : 이미지 가로폭, TEX_WIDTH 와 동일, 이 값으로 대체 가능
+		- int img_height : 이미지 세로높이, TEX_HEIGH 과 동일, 이 값으로 대체 가능
+		- int bpp : bit per pixel, 한 픽셀의 RGBA값을 저장하는데 사용된 메모리 크기
+		- int endian : 이미지가 리틀 엔디안인지 빅 엔디안인지
+		- int size_l : 한 픽셀의 사이즈, 한 픽셀은 RGBA와 다음 픽셀의 포인터를 가지며 size_l 만큼 이동하면 다음 픽셀의 정보로 이동 (정확히는 size_l은 길이 * 크기 이기 때문에 size_l / 크기 를 해줘야 다음 픽셀로 이동함, 32 bit RGBA는 4바이트의 크기를 가지므로 size_l / 4 = 한 픽셀의 길이임)
+
+18. 기본 이미지
+	- void *img
+	- 출력창과 동일한 사이즈의 이미지로 여기에 모든 이미지의 픽셀들을 그려나감
+	- config.img.img = mlx_new_image(config.mlx, WIN_WIDTH, WIN_HEIGH)
+	- config.img.data = (int *)mlx_get_data_addr(config.img.img, &config.img.bpp, &config.img.size_l, &config.img.endian);
+	- 위 코드에서 size_l 은 한 행의 길이인 WIN_WIDTH 값이 아닌 WIN_WIDTH * 4 를 가지는데 이는 픽셀당 32 bit RGBA 값(4 바이트)를 고려하여 계산된 값임

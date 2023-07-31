@@ -6,7 +6,7 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:38:46 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/07/30 21:53:47 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/07/31 23:04:43 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	draw_map(t_config *config)
 	int	j;
 
 	j = 0;
-	while (j < WIN_HEIGH)
+	while (j < config->win_cols)
 	{
 		i = 0;
-		while (i < WIN_WIDTH)
+		while (i < config->win_rows)
 		{
-			config->img.data[j * WIN_WIDTH + i] = config->buf[j][i];
+			config->img.data[config->win_rows * j + i] = config->buf[j][i];
 			i++;
 		}
 		j++;
@@ -31,18 +31,30 @@ void	draw_map(t_config *config)
 	mlx_put_image_to_window(config->mlx, config->win, config->img.img, 0, 0);
 }
 
-void	fill_square(t_config *config, int pixel, int x, int y)
+int	*find_texture(t_config *config, int x, int y)
+{
+	if (config->map[y][x] == '0')
+		return (config->textures[4]);
+	else if (config->map[y][x] == '1' || config->map[y][x] == '2')
+		return (config->textures[2]);
+	else if (config->map[y][x] == 'N')
+		return (config->textures[0]);
+	else
+		return (config->textures[3]);
+}
+
+void	fill_square(t_config *config, int *img_texture, int x, int y)
 { 	// 타일의 크기 결정
 	int	i;
 	int	j;
 
-	j = y;
-	while (j < y + 64)
+	j = 0;
+	while (j < TEX_HEIGH)
 	{
-		i = x;
-		while (i < x + 64)
+		i = 0;
+		while (i < TEX_WIDTH)
 		{
-			config->buf[j][i] = pixel;
+			config->buf[j + y][i + x] = img_texture[TEX_WIDTH * j + i];
 			i++;
 		}
 		j++;
@@ -53,33 +65,18 @@ void	mapping(t_config *config)
 {	// 화면에 찍히는 위치 결정, 전체적인 맵의 크기가 커짐
 	int	i;
 	int	j;
-	int	x;
-	int	y;
-	int	pixel;
+	int	*img_texture;
 
 	j = 0;
-	y = 0;
 	while (j < config->map_cols)
 	{
 		i = 0;
-		x = 0;
 		while (i < config->map_rows)
 		{
-			if (config->map[j][i] == '0')
-				pixel = config->textures[4][TEX_WIDTH * j + i];
-			else if (config->map[j][i] == '1' || config->map[j][i] == '2')
-				pixel = config->textures[2][TEX_WIDTH * j + i];
-			else if (config->map[j][i] == 'N')
-				pixel = config->textures[0][TEX_WIDTH * j + i];
-			else
-				pixel = config->textures[3][TEX_WIDTH * j + i];
-//			config->buf[y][x] = pixel;
-			fill_square(config, pixel, x, y);
+			img_texture = find_texture(config, i, j);
+			fill_square(config, img_texture, i * TEX_WIDTH, j * TEX_HEIGH);
 			i++;
-			x += 32;
 		}
 		j++;
-		y += 32;
 	}
-	draw_map(config);
 }
