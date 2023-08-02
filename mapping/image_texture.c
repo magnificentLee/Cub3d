@@ -33,7 +33,7 @@ int	init_texture(t_config *config)
 
 void	load_textures(t_config *config)
 {
-	load_image(config, "./img/AnyConv.com__barrel.xpm", config->textures[0]); // config->north_texture
+	load_image(config, "./img/AnyConv.com__eagle.xpm", config->textures[0]); // config->north_texture
 	load_image(config, "./img/AnyConv.com__colorstone.xpm", config->textures[1]); // config->south_texture
 	load_image(config, "./img/AnyConv.com__redbrick.xpm", config->textures[2]); // config->west_texture , test:wall
 	load_image(config, "./img/AnyConv.com__greystone.xpm", config->textures[3]); // config->east_texture

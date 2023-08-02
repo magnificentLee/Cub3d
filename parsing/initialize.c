@@ -12,6 +12,28 @@
 
 #include "../cub3d.h"
 
+void	setPlayerPosition(t_config *config)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < config->map_cols)
+	{
+		i = 0;
+		while (i < config->map_rows)
+		{
+			if (config->map[j][i] == 'N')
+			{
+				config->playerX = i;
+				config->playerY = j;
+			}
+			i++;
+		}
+		j++;
+	}
+}
+
 void	initialize(t_config *config, char **av)
 {
 	int	i;
@@ -37,5 +59,8 @@ void	initialize(t_config *config, char **av)
 		}
 		i++;
 	}
+	config->playerX = -1;
+	config->playerY = -1;
+	setPlayerPosition(config);
 	config->win = mlx_new_window(config->mlx, config->win_rows, config->win_cols, "mlx_test");
 }

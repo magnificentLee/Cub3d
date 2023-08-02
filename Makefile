@@ -1,16 +1,10 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/07/31 23:07:26 by jeongmil          #+#    #+#              #
-#    Updated: 2023/07/31 23:07:27 by jeongmil         ###   ########seoul.kr   #
-#                                                                              #
-# **************************************************************************** #
-
-NAME		= cub3d
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+MDIR = mlx
+MFLAGS = -Imlx -lmlx -framework OpenGL -framework AppKit
+NAME = cub3d
+RM = rm
+RMFLAGS = -f
 
 SRCS		= main.c \
 			./utils/ft_atoi.c \
@@ -24,27 +18,24 @@ SRCS		= main.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \
 
-OBJS		= $(SRCS:%.c=%.o)
+OBJS = $(SRCS:.c=.o)
 
-LIBC		= ar rc
+all: $(NAME)
 
-FLAGS		=  -Wall -Wextra -Werror
+$(NAME): $(OBJS)
+				make -C $(MDIR)
+				$(CC) $(CFLAGS) -L./$(MDIR) $(MFLAGS) $^ -o $@
 
-all			:	$(NAME)
+clean:
+				$(RM) $(RMFLAGS) $(OBJS)
+				make clean -C $(MDIR)
 
-$(NAME)		:	$(OBJS)
-		cc -o $(NAME) $(OBJS) -L./mlx -lmlx -framework OpenGL -framework AppKit -g -fsanitize=address
+fclean:
+				make clean
+				$(RM) $(RMFLAGS) $(NAME)
 
-%.o			:	%.c
-		cc $(FLAGS) -c $^ -I./ -o $@
+re:
+				make fclean
+				make all
 
-
-clean		:
-		rm -f $(OBJS)
-
-fclean		:	clean
-		rm -f $(NAME)
-
-re			:	fclean all
-
-.PHONY		:	all clean fclean re
+.PHONY: all clean fclean re

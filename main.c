@@ -30,6 +30,7 @@ int	main(int ac, char **av)
 	// rendering map function
 	config.img.img = mlx_new_image(config.mlx, config.win_rows, config.win_cols);
 	config.img.data = (int *)mlx_get_data_addr(config.img.img, &config.img.bpp, &config.img.size_l, &config.img.endian);
+	printf("playerY:playerX = %f:%f\n", config.playerY, config.playerX);
 
 	mapping(&config);
 	draw_map(&config);

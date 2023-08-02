@@ -39,6 +39,7 @@
 # define TEX_HEIGH		64
 # define WIN_WIDTH 		640 // 640 // 가로, winRowSize >= tileSize * config->max_rows, 테스트 케이스의 경우 2200 >= 65 * 33 , 해당 사이즈에선 버퍼가 너무 커서 런타임 에러 발생
 # define WIN_HEIGH 		480 // 480 // 세로, winColSize >= tileSize * config->max_cols, 테스트 케이스의 경우 1080 >= 65 * 14 , 해당 사이즈에선 버퍼가 너무 커서 런타임 에러 발생
+# define SIZEVALUE		2
 
 typedef struct s_img {
 	void	*img;
@@ -83,6 +84,8 @@ typedef struct s_config {
 //	int		buf[WIN_HEIGH][WIN_WIDTH]; // 이중배열을 사용하는 경우 맵이 크면 스택메모리 부족으로 터진다
 	int		map_rows;
 	int		map_cols;
+	double	playerX; // parsing 에서 초기화, 테스트에서는 임시 함수로 초기화할 것
+	double	playerY;
 }	t_config;
 
 
