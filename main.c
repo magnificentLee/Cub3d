@@ -33,7 +33,6 @@ int	main(int ac, char **av)
 	if (check_not_valid(ac, av, config))
 		return (1);
 	initialize(config, av);
-	printf("texture path : %s\n", config->no_tex);
 	// 출력용
 	config->img.img = mlx_new_image(config->mlx, config->win_rows, config->win_cols);
 	config->img.data = (int *)mlx_get_data_addr(config->img.img, &config->img.bpp, &config->img.size_l, &config->img.endian);

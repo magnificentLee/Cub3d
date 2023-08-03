@@ -36,9 +36,9 @@ void	load_textures(t_config *config)
 	// config->no_tex;
 	load_image(config, config->no_tex, config->textures[0]); // config->north_texture
 	load_image(config, config->so_tex, config->textures[1]); // config->south_texture
-	load_image(config, config->we_tex, config->textures[2]); // config->west_texture , test:wall
-	load_image(config, config->ea_tex, config->textures[3]); // config->east_texture
-	load_image(config, config->no_tex, config->textures[4]); // test, floor,, delete
+	load_image(config, "img/AnyConv.com__redbrick.xpm", config->textures[2]); // config->west_texture , test:wall
+	load_image(config, "img/AnyConv.com__colorstone.xpm", config->textures[3]); // config->east_texture
+	load_image(config, "img/AnyConv.com__bluestone.xpm", config->textures[4]); // test, floor,, delete
 }
 
 void	load_image(t_config *config, char *img_file, int *texture)
@@ -52,7 +52,6 @@ void	load_image(t_config *config, char *img_file, int *texture)
 	img.data = (int *)mlx_get_data_addr(img.img, &img.bpp, \
 	&img.size_l, &img.endian); // 생성된 이미지 객체의 정보를 가져옴
 	// image copy loop. check README.md -> mlx_get_data_addr
-	printf("texture check : %p:%d:%d\n", img.data, img.size_l, img.endian);
 	j = 0;
 	while (j < img.img_height)
 	{

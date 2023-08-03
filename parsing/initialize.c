@@ -81,5 +81,7 @@ void	initialize(t_config *config, char **av)
 		}
 		i++;
 	}
+	init_texture(config);
+	load_textures(config);
 	config->win = mlx_new_window(config->mlx, config->win_rows, config->win_cols, "mlx_test");
 }

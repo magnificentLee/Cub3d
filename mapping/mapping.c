@@ -50,7 +50,6 @@ void	fill_square(t_config *config, int *img_texture, int x, int y)
 	int	j;
 
 	j = 0;
-	exit(0);
 	while (j < TEX_HEIGH / SIZEVALUE)
 	{
 		i = 0;
