@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 14:34:50 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/08/03 15:42:55 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 16:38:30 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,15 @@ void	load_image(t_config *config, char *img_file, int *texture)
 	int		j;
 
 	img.img = mlx_xpm_file_to_image(config->mlx, img_file, \
-	&img.img_width, &img.img_height); // 이미지 객체 생성
+	&img.img_width, &img.img_height);
 	img.data = (int *)mlx_get_data_addr(img.img, &img.bpp, \
-	&img.size_l, &img.endian); // 생성된 이미지 객체의 정보를 가져옴
-	// image copy loop. check README.md -> mlx_get_data_addr
-	printf("texture check : %p:%d:%d\n", img.data, img.size_l, img.endian);
+	&img.size_l, &img.endian);
 	j = 0;
 	while (j < img.img_height)
 	{
 		i = 0;
 		while (i < img.img_width)
 		{
-			// 동일한 크기의 이미지를 사용할 경우라고 가정 img->img_width == TEX_WIDTH
 			texture[img.img_width * j + i] = img.data[img.img_width * j + i];
 			i++;
 		}

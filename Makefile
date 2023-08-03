@@ -15,6 +15,7 @@ SRCS		= main.c \
 			./parsing/get_color_texture.c \
 			./parsing/process_map_line.c \
 			./parsing/initialize.c \
+			./parsing/dup_check.c \
 			./mapping/mapping.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \

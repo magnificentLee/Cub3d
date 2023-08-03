@@ -6,13 +6,13 @@
 /*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 18:57:30 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/01 17:42:09 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 19:49:45 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	is_color(char *line)
+int	is_color(char *line, t_config *config)
 {
 	char	**tokens;
 
@@ -22,6 +22,7 @@ int	is_color(char *line)
 		ft_split_free(tokens, 0);
 		return (0);
 	}
+	color_dup_check(tokens, config);
 	if (ft_strcmp(tokens[0], "F") == 0 || ft_strcmp(tokens[0], "C") == 0)
 	{
 		ft_split_free(tokens, 0);
@@ -30,7 +31,7 @@ int	is_color(char *line)
 	return (0);
 }
 
-int	is_texture(char *line)
+int	is_texture(char *line, t_config *config)
 {
 	char	**tokens;
 
@@ -40,6 +41,7 @@ int	is_texture(char *line)
 		ft_split_free(tokens, 0);
 		return (0);
 	}
+	texture_dup_check(tokens, config);
 	if (ft_strcmp(tokens[0], "NO") == 0 || ft_strcmp(tokens[0], "SO") == 0 \
 	|| ft_strcmp(tokens[0], "WE") == 0 || ft_strcmp(tokens[0], "EA") == 0)
 	{

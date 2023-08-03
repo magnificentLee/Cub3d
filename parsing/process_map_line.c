@@ -6,25 +6,11 @@
 /*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 19:04:42 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/01 17:40:47 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 16:53:30 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-// void	process_map_line(char *line, t_config *config)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = 0;
-// 	len = ft_strlen(line);
-// 	if (line[0] == '\0')
-// 		parse_error("Invalid map line: contains empty line.\n", 2);
-// 	config->map_rows += 1;
-// 	if (len > config->map_cols)
-// 		config->map_cols = len;
-// }
 
 void	process_map_line(char *line, t_config *config)
 {

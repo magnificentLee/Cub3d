@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:23:45 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/03 15:51:33 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 17:40:32 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ typedef struct s_img {
 	int		img_height; // TEX_HEIGH 과 동일, 이 값으로 대체 가능
 	int		bpp;		// bit per pixel 한 픽셀의 RGBA값을 저장하는데 사용된 메모리
 	int		endian;		// 빅 or 리틀 엔디안
-	int		size_l; // 
-	
+	int		size_l; //
 }	t_img;
 
 typedef struct s_pos
@@ -64,26 +63,37 @@ typedef struct s_pos
 	double	rayDirY;	
 }	t_pos;
 
+typedef struct s_fc_set
+{
+	int	no_tex_set;
+	int	so_tex_set;
+	int	we_tex_set;
+	int	ea_tex_set;
+	int	floor_set;
+	int	ceiling_set;
+}	t_fc_set;
+
 typedef struct s_config {
-	void	*mlx;
-	void	*win;
-	int		win_rows;
-	int		win_cols;
-	char	*no_tex;
-	char	*so_tex;
-	char	*we_tex;
-	char	*ea_tex;
-	int		floor_color;
-	int		ceiling_color;
-	int		map_started;
-	int		news_flag;
-	t_img	img;
-	t_pos	r_pos; // t_p_pos :: ray_position
-	int		**textures;
-	char	**map;
-	int		**buf; // 한 번에 출력하는 용도
-	int		map_rows;
-	int		map_cols;
+	void		*mlx;
+	void		*win;
+	int			win_rows;
+	int			win_cols;
+	char		*no_tex;
+	char		*so_tex;
+	char		*we_tex;
+	char		*ea_tex;
+	int			floor_color;
+	int			ceiling_color;
+	int			map_started;
+	int			news_flag;
+	t_img		img;
+	t_pos		r_pos; // t_p_pos :: ray_position
+	int			**textures;
+	char		**map;
+	int			**buf; // 한 번에 출력하는 용도
+	int			map_rows;
+	int			map_cols;
+	t_fc_set	fc_set;
 }	t_config;
 
 // main.c

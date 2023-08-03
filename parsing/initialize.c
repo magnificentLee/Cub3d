@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:06:57 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/08/03 15:46:15 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 19:50:20 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ void	initialize_config(t_config *config)
 	config->ceiling_color = -1;
 	config->map_started = 0;
 	config->news_flag = 0;
+	config->fc_set.no_tex_set = 0;
+	config->fc_set.so_tex_set = 0;
+	config->fc_set.ea_tex_set = 0;
+	config->fc_set.we_tex_set = 0;
+	config->fc_set.floor_set = 0;
+	config->fc_set.ceiling_set = 0;
 }
 
 void	set_player_pos(t_config *config)
@@ -50,9 +56,35 @@ void	set_player_pos(t_config *config)
 	}
 }
 
+void	news_check(t_config *config)
+{
+	int	garo;
+	int	sero;
+	int	flag;
+
+	flag = 0;
+	sero = 0;
+	while (sero < config->map_cols)
+	{
+		garo = 0;
+		while (garo < config->map_rows)
+		{
+			if (config->map[sero][garo] == 'N' || config->map[sero][garo] == 'E'\
+			|| config->map[sero][garo] == 'W' || config->map[sero][garo] == 'S')
+				flag = 1;
+			garo++;
+		}
+		sero++;
+	}
+	if (flag == 0)
+		parse_error("No player position.\n", 2);
+}
+
 void	parsing_cub(char *file_path, t_config *config)
 {
 	parse_config(file_path, config);
+	news_check(config);
+	check_duplicate(config);
 	// map_check(config);
 	config->win_rows = TEX_WIDTH / SIZEVALUE * config->map_rows;
 	config->win_cols = TEX_HEIGH / SIZEVALUE * config->map_cols;
@@ -81,5 +113,8 @@ void	initialize(t_config *config, char **av)
 		}
 		i++;
 	}
-	config->win = mlx_new_window(config->mlx, config->win_rows, config->win_cols, "mlx_test");
+	config->win = mlx_new_window(config->mlx, config->win_rows, \
+	config->win_cols, "mlx_test");
+	init_texture(config);
+	load_textures(config);
 }

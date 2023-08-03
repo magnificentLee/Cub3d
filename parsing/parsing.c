@@ -6,7 +6,7 @@
 /*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:22:15 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/03 14:48:17 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 19:53:05 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	parse_line(char *line, t_config *config)
 	int		i;
 
 	i = 0;
-	if (is_texture(line))
+	if (is_texture(line, config))
 		get_texture(line, config);
-	else if (is_color(line))
+	else if (is_color(line, config))
 		get_color(line, config);
 	while (ft_isspace(line[i]))
 		i++;
@@ -65,18 +65,6 @@ static void	check_texture(t_config *config)
 		parse_error("Invalid texture line.\n", 2);
 }
 
-void	print_map(t_config *config)
-{
-	int	col;
-
-	col = 0;
-	while (col < config->map_cols)
-	{
-		printf("%s", config->map[col]);
-		col++;
-	}
-}
-
 void	parse_config(char *file_path, t_config *config)
 {
 	int		fd;
@@ -100,5 +88,4 @@ void	parse_config(char *file_path, t_config *config)
 	check_texture(config);
 	close(fd);
 	fill_map(file_path, config);
-	// print_map(config);  // 맵 출력, 실험용
 }
