@@ -3,10 +3,19 @@ NAME		= cub3d
 SRCS		= main.c \
 			./utils/ft_atoi.c \
 			./utils/ft_split.c \
+			./utils/ft_str_is_numeric.c \
 			./utils/get_next_line.c \
 			./utils/get_next_line_utils.c \
 			./utils/utils.c \
+			./utils/map_parsing_utils.c \
 			./parsing/parsing.c \
+			./parsing/parse_check.c\
+			./parsing/parse_error.c\
+			./parsing/valid_color_texture.c \
+			./parsing/get_color_texture.c \
+			./parsing/process_map_line.c \
+			
+			
 
 OBJS		= $(SRCS:%.c=%.o)
 
