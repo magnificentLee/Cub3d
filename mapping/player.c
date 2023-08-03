@@ -1,4 +1,4 @@
-#include "../cub3d.h"
+#include "mapping.h"
 
 void	playerMovement(t_config *config)
 {

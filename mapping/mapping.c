@@ -6,11 +6,11 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:38:46 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/07/31 23:04:43 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 15:42:58 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "mapping.h"
 
 void	draw_map(t_config *config)
 {
@@ -36,13 +36,10 @@ int	*find_texture(t_config *config, int x, int y)
 	// 맵이 사각형이 아닌 경우, 벽을 넘어서 NULL일 부분에 접근해서 맵을 생성하는데 어떻게 막아야 될지 모르겠음
 	if (config->map[y][x] == '0')
 		return (config->textures[4]);
-	else if (config->map[y][x] == '1' || config->map[y][x] == '2')
+	else if (config->map[y][x] == '1')
 		return (config->textures[2]);
 	else if (config->map[y][x] == 'N') // need S E W
-	{
-		printf("current value is N\n");
 		return (config->textures[0]);
-	}
 	else
 		return (config->textures[3]);
 }
@@ -53,6 +50,7 @@ void	fill_square(t_config *config, int *img_texture, int x, int y)
 	int	j;
 
 	j = 0;
+	exit(0);
 	while (j < TEX_HEIGH / SIZEVALUE)
 	{
 		i = 0;

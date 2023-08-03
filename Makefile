@@ -1,41 +1,45 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
-MDIR = mlx
-MFLAGS = -Imlx -lmlx -framework OpenGL -framework AppKit
-NAME = cub3d
-RM = rm
-RMFLAGS = -f
+NAME		= cub3d
 
 SRCS		= main.c \
 			./utils/ft_atoi.c \
 			./utils/ft_split.c \
+			./utils/ft_str_is_numeric.c \
 			./utils/get_next_line.c \
 			./utils/get_next_line_utils.c \
 			./utils/utils.c \
+			./utils/map_parsing_utils.c \
 			./parsing/parsing.c \
+			./parsing/parse_check.c\
+			./parsing/parse_error.c\
+			./parsing/valid_color_texture.c \
+			./parsing/get_color_texture.c \
+			./parsing/process_map_line.c \
 			./parsing/initialize.c \
 			./mapping/mapping.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJS		= $(SRCS:%.c=%.o)
 
-all: $(NAME)
+LIBC		= ar rc
 
-$(NAME): $(OBJS)
-				make -C $(MDIR)
-				$(CC) $(CFLAGS) -L./$(MDIR) $(MFLAGS) $^ -o $@
+FLAGS		=  -Wall -Wextra -Werror
 
-clean:
-				$(RM) $(RMFLAGS) $(OBJS)
-				make clean -C $(MDIR)
+all			:	$(NAME)
 
-fclean:
-				make clean
-				$(RM) $(RMFLAGS) $(NAME)
+$(NAME)		:	$(OBJS)
+		cc -o $(NAME) $(OBJS) -L./mlx -lmlx -framework OpenGL -framework AppKit -g -fsanitize=address
 
-re:
-				make fclean
-				make all
+%.o			:	%.c
+		cc $(FLAGS) -c $^ -I./ -o $@
 
-.PHONY: all clean fclean re
+
+clean		:
+		rm -f $(OBJS)
+
+fclean		:	clean
+		rm -f $(NAME)
+
+re			:	fclean all
+
+.PHONY		:	all clean fclean re

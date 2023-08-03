@@ -6,12 +6,11 @@
 /*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 17:47:02 by sejokim           #+#    #+#             */
-/*   Updated: 2023/07/18 18:01:05 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/07/28 19:35:41 by sejokim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
 
 int	ft_strlen(const char *s)
 {

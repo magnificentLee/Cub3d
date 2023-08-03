@@ -21,10 +21,12 @@
 	- 벡터를 이용하는 방법은 방향 벡터와 카메라 평면도가 필요함
 
 4. 카메라 평면
-	- 카메라를 뇌, 카메라 평면을 눈이라 생각하면 된다.
-	- 카메라와 카메라 평면은 동일하게 움직인다.
-	- 카메라 -> 카메라 평면 -> 광선 -> 랜더링 대상 의 순서를 가진다고 생각하면 된다.
-	- 카메라와 카메라 평면 사이는 방향 벡터가 위치하며 카메라 평면은 방향 벡터에 항상 수직이다.
+	- 카메라 평면 = 가상의 모니터
+	- 카메라 평면과 카메라(플레이어)는 동일하게 이동
+	- 카메라 평면 -> 카메라 -> 광선 -> 랜더링 대상 의 순서를 가진다고 생각하면 된다.
+	- 카메라 평면은 방향 벡터에 항상 수직이다.
+		- 카메라 평면을 수직선이라고 생각할 때 방향 벡터는 수직하기만 하면 된다.
+		- 카메라는 광선이 나가는 위치
 	- 수직이 아니라면 랜더링 대상이 왜곡되게 보인다.
 	- 필요한 벡터
 		- pos 벡터 = 카메라:플레이어 위치
@@ -56,6 +58,21 @@
 		- 3인칭 게임에서 마우스 휠을 돌려 줌인 효과를 줬을 때 화면에 표시되는 주변 화물이 적어지지만 캐릭터는 크게 보인다는 예시를 생각하면 좋음.
 	- FOV 값을 줄이면 방향 벡터 값은 줄어들고 카메라 평면 길이는 늘어난다
 		- 위 사례와는 반대로 화면에 표현 가능한게 늘어나므로 화면에 표시되는 주변 사물, 배경이 늘어나고 캐릭터는 작아지므로 축소 효과라고 생각하면 된다.
+	- 예제
+		- dir(-1, 0), plane(0, 0.66) 일 때 FOV?
+			- tan(half_FOV) = planeY / dirX
+			- FOV = 2 * arctan(planeY / dirX)
+			- FOV = 2 * atan(planeY / dirx) * 180 (degree) / pi(rad)
+			- FOV = -66.8, fabs(FOV) = 66.8 degree
+		- dir(0, 1), plane(0.66, 0) 일 때 FOV?
+			- FOV = 2 * atan(planeX / dirY) * 180 / pi
+			- FOV = 66.8 degree
+		- dir(1, 0), plane(0. -0.66) 일 때 FOV?
+			- FOv = 2 * atan(planeY / dirX) * 180 / pi
+			- FOV = -66.8, fabs(FOV) = 66.8 degree
+		- dir(0, -1), plane(-0.66, 0) 일 때 FOV?
+			- FOV = 2 * atan(planeX / dirY) * 180 / pi
+			- FOV = 66.8 degree
 
 7. 실제 코드에서 구성
 	- 예제 코드 04_floor_ceiling.c 를 참고
@@ -155,3 +172,17 @@
 	- config.img.img = mlx_new_image(config.mlx, WIN_WIDTH, WIN_HEIGH)
 	- config.img.data = (int *)mlx_get_data_addr(config.img.img, &config.img.bpp, &config.img.size_l, &config.img.endian);
 	- 위 코드에서 size_l 은 한 행의 길이인 WIN_WIDTH 값이 아닌 WIN_WIDTH * 4 를 가지는데 이는 픽셀당 32 bit RGBA 값(4 바이트)를 고려하여 계산된 값임
+
+19. 출력화면 및 타일 크기 조절
+	- initialize - initialize 함수
+		- win_rows = TEX_WIDTH / SIZEVALUE * config->map_rows
+		- win_cols = TEX_HEIGH / SIZEVALUE * config->map_cols
+		- 출력화면인 win의 가로 세로를 줄여서 출력화면을 조절해줌
+	- mapping - fill_square 함수
+		- j < TEX_HEIGH / SIZEVALUE, i < TEX_WIDTH / SIZEVALUE
+		- 사각형 타일의 크기를 조절
+		- 원본은 64 * 64 사이즈로 64 * n, 64 * n (n <= 1) 으로 줄여줌
+		- 현재 코드는 전체 64 * 64 를 32 * 32 만큼 출력하는데 이는 1/4 사이즈에 해당하며 픽셀의 1/4 만큼만 이동해서 출력하므로 전체 크기를 작게 만든다기 보다는 타일의 1/4 만 출력한다가 맞음
+	- mapping - mapping 함수
+		- i * TEX_WIDTH / SIZEVALUE, j * TEX_HEIGH / SIZEVALUE
+		- fill_square의 인자로 들어가며 출력창 크기의 buf에 위 넓이만큼 채울 수 있게 해줌
