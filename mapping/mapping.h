@@ -6,7 +6,7 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:26:31 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/08/03 15:49:38 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 20:39:17 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ int			free_textures(int **integer, int count);
 /* test Event */
 int			key_press(int keycode, t_config *config);
 int			mouth_press(t_config *config);
+
+// player.c
+void		playerRendering(t_config *config);
 
 #endif

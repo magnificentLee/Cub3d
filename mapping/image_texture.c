@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 14:34:50 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/08/03 16:38:30 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 20:38:12 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	load_textures(t_config *config)
 	// config->no_tex;
 	load_image(config, config->no_tex, config->textures[0]); // config->north_texture
 	load_image(config, config->so_tex, config->textures[1]); // config->south_texture
-	load_image(config, config->we_tex, config->textures[2]); // config->west_texture , test:wall
-	load_image(config, config->ea_tex, config->textures[3]); // config->east_texture
-	load_image(config, config->no_tex, config->textures[4]); // test, floor,, delete
+	load_image(config, "img/AnyConv.com__redbrick.xpm", config->textures[2]); // config->west_texture , test:wall
+	load_image(config, "img/AnyConv.com__colorstone.xpm", config->textures[3]); // config->east_texture
+	load_image(config, "img/AnyConv.com__bluestone.xpm", config->textures[4]); // test, floor,, delete
 }
 
 void	load_image(t_config *config, char *img_file, int *texture)

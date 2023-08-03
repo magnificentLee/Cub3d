@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mapping.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 14:38:46 by jeongmil          #+#    #+#             */
-/*   Updated: 2023/08/03 16:37:06 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 20:38:59 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	fill_square(t_config *config, int *img_texture, int x, int y)
 	int	j;
 
 	j = 0;
-	exit(0);
 	while (j < TEX_HEIGH / SIZEVALUE)
 	{
 		i = 0;
@@ -75,8 +74,13 @@ void	mapping(t_config *config)
 		i = 0;
 		while (i < config->map_rows)
 		{
-			img_texture = find_texture(config, i, j);
-			fill_square(config, img_texture, i * TEX_WIDTH / SIZEVALUE, j * TEX_HEIGH / SIZEVALUE);
+			if (config->map[j][i] != 'N')
+			{
+				img_texture = find_texture(config, i, j);
+				fill_square(config, img_texture, i * TEX_WIDTH / SIZEVALUE, j * TEX_HEIGH / SIZEVALUE);
+			}
+//			else if (config->map[j][i] == 'N')
+//				playerRendering(config);
 			i++;
 		}
 		j++;

@@ -19,6 +19,7 @@ SRCS		= main.c \
 			./mapping/mapping.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \
+			./mapping/player.c \
 
 OBJS		= $(SRCS:%.c=%.o)
 
@@ -29,6 +30,7 @@ FLAGS		=  -Wall -Wextra -Werror
 all			:	$(NAME)
 
 $(NAME)		:	$(OBJS)
+#		make -C ./mlx
 		cc -o $(NAME) $(OBJS) -L./mlx -lmlx -framework OpenGL -framework AppKit -g -fsanitize=address
 
 %.o			:	%.c
@@ -37,6 +39,7 @@ $(NAME)		:	$(OBJS)
 
 clean		:
 		rm -f $(OBJS)
+#		make clean -C ./mlx		
 
 fclean		:	clean
 		rm -f $(NAME)

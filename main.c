@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sejokim <sejokim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:21:17 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/03 19:56:49 by sejokim          ###   ########.fr       */
+/*   Updated: 2023/08/03 20:36:19 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ int	main(int ac, char **av)
 	config->img.data = (int *)mlx_get_data_addr(config->img.img, \
 	&config->img.bpp, &config->img.size_l, &config->img.endian);
 	mapping(config);
+	playerRendering(config);
 	draw_map(config);
+	
 	mlx_hook(config->win, X_EVENT_KEY_PRESS, 0, &key_press, config);
 	mlx_hook(config->win, WINDOW_EXIT, 0, &mouth_press, config);
 	mlx_loop(config->mlx);
