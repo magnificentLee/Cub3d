@@ -6,7 +6,7 @@
 /*   By: jeongmil <jeongmil@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:21:17 by sejokim           #+#    #+#             */
-/*   Updated: 2023/08/03 15:36:14 by jeongmil         ###   ########seoul.kr  */
+/*   Updated: 2023/08/03 20:22:34 by jeongmil         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int ac, char **av)
 	config->img.img = mlx_new_image(config->mlx, config->win_rows, config->win_cols);
 	config->img.data = (int *)mlx_get_data_addr(config->img.img, &config->img.bpp, &config->img.size_l, &config->img.endian);
 	mapping(config);
+	playerRendering(config);
 	draw_map(config);
 
 	mlx_hook(config->win, X_EVENT_KEY_PRESS, 0, &key_press, config);

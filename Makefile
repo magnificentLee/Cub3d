@@ -18,6 +18,7 @@ SRCS		= main.c \
 			./mapping/mapping.c \
 			./mapping/image_texture.c \
 			./mapping/event.c \
+			./mapping/player.c \
 
 OBJS		= $(SRCS:%.c=%.o)
 
